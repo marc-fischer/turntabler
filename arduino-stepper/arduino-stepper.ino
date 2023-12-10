@@ -4,8 +4,7 @@
 
 int steps_per_turn = 2048;
 int speed = 3;
-int direction = 1;  // 1 = clockwise, -1 = counter-clockwise
-int steps = 0;
+int direction = 1; // 1 = clockwise, -1 = counter-clockwise
 int turns = 0;
 int turns_counter = 0;
 int loops = 0;  // 0 = stop after emptying the turns conter, 1 = loop, meaning turn around and step back if turns are 0, 2 = run forever
