@@ -17,7 +17,8 @@ commands = {
     "steps": b"t",
     "speed": b"v",
     "burn": b"b",
-    "erase": b"e"
+    "erase": b"e",
+    "bounce": b"d",
 }
 
 class ArduinoControlApp:
@@ -145,18 +146,30 @@ class ArduinoControlApp:
         number_action_button = tk.Button(self.root, text="Ändern", command=self.number_action_speed)
         number_action_button.grid(row=13, column=2, pady=10)
 
+        ### ROW 13
+        # Input field for a number
+        bounce_label = tk.Label(self.root, text="Bounce Delay:")
+        bounce_label.grid(row=14, column=0, pady=10)
+
+        self.bounce_entry = tk.Entry(self.root)
+        self.bounce_entry.grid(row=14, column=1, pady=10)
+
+        # Button for triggering an action related to the entered number
+        bounce_action_button = tk.Button(self.root, text="Ändern", command=self.number_action_bounce)
+        bounce_action_button.grid(row=14, column=2, pady=10)
+
         # Button for saving settings to EEPROM
         burn_action_label = tk.Label(self.root, text="Aktuelle Einstellungen speichern und beim Anstecken automatisch laden: ")
-        burn_action_label.grid(row=14, column=0, pady=10)
+        burn_action_label.grid(row=15, column=0, pady=10)
         burn_action_button = tk.Button(self.root, text="Burn Settings", command=self.send_burn)
-        burn_action_button.grid(row=14, column=1, pady=10)
+        burn_action_button.grid(row=15, column=1, pady=10)
         erase_action_button = tk.Button(self.root, text="Erase Settings", command=self.send_erase)
-        erase_action_button.grid(row=14, column=2, pady=10)
+        erase_action_button.grid(row=15, column=2, pady=10)
 
         ### ROW 14
         # Text widget for displaying sent and received messages
         self.text_widget = tk.Text(self.root, height=10, width=80)  # Adjust width here
-        self.text_widget.grid(row=15, column=0, pady=10, columnspan=5)
+        self.text_widget.grid(row=16, column=0, pady=10, columnspan=5)
 
 
     def get_serial_ports(self):
@@ -208,6 +221,8 @@ class ArduinoControlApp:
     def send_erase(self):
         self.send_command(commands["erase"])
 
+    def send_bounce(self, delay):
+        self.send_command(commands["bounce"] + str(delay).encode())
 
     def send_command(self, command):
         """Send 'stop' to the selected serial port."""
@@ -285,7 +300,14 @@ class ArduinoControlApp:
         action_message = f"Ändere Geschwindigkeit zu {number_value} "
         self.insert_message(action_message, "dark blue")
         self.send_speed(number_value)
-
+    
+    def number_action_bounce(self):
+        """Perform an action related to the entered number."""
+        number_value = self.get_bounce_entry_value()
+        action_message = f"Ändere Bounce Delay zu {number_value} "
+        self.insert_message(action_message, "dark blue")
+        self.send_bounce(number_value)
+    
     def read_serial(self):
         """Read from the serial port and update the text widget."""
         try:
@@ -324,7 +346,14 @@ class ArduinoControlApp:
         except ValueError:
             self.insert_message("Invalid number. Please enter a valid speed.", "dark blue")
             return 0
-
+    
+    def get_bounce_entry_value(self):
+        """Get the value from the speed entry field."""
+        try:
+            return int(self.bounce_entry.get())
+        except ValueError:
+            self.insert_message("Invalid number. Please enter a valid speed.", "dark blue")
+            return 0
 
 if __name__ == "__main__":
     root = tk.Tk()

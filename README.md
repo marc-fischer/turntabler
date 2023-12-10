@@ -56,4 +56,4 @@ To disable that behavior, Erase the Settings by pressing the corresponding butto
 In the bottom all transmitted and received messages from/to the arduino are logged. 
 
 ## Backlog
-1. Implement a 'bouce'-delay (delay turning of the direction after reaching end position in pan/tilt mode)
+1. Fix the coloring in the text box
