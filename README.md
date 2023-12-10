@@ -38,6 +38,10 @@ To send a command, put it in a console and send it with a ending newline ``\nl``
 
 
 ## config-app
+### Requirements
+```pip install tkinter pyserial PIL requests```
+
+### Operation
 For convenience, the apps frontend is partly german. The whole source code and variable naming is in english, translation can be done easily. 
 ![Config App Screenshot](/assets/config-app.png)
 
