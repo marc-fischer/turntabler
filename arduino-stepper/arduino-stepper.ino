@@ -55,6 +55,11 @@ void read_settings_from_eeprom(void)
     speed = EEPROM.read(EEPROM_ADDR_SPEED);
     turns = EEPROM.read(EEPROM_ADDR_TURNS);
     loops = EEPROM.read(EEPROM_ADDR_LOOPS);
+    if(loops == 0){ // loops counter set to 1 to enable auto-mode
+      loops = 1;
+      turns = 1;
+      turns_counter = 1;  
+    }
     direction = EEPROM.read(EEPROM_ADDR_DIRECTION);
     bounce_delay = EEPROM.read(EEPROM_ADDR_BOUNCE_DELAY);
     send_status_message();
